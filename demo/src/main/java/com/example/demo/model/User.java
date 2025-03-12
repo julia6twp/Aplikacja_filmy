@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,13 +13,19 @@ public class User {
     private String email;
     private String password;
 
-    //  domyślny konstruktor
+    @Setter
+    private String verificationCode;
+    @Setter
+    private boolean verified;
+
     public User() {}
 
-    public User(String name, String email, String password  ) {
+    public User(String name, String email, String password, String verificationCode, boolean verified ) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.verificationCode = verificationCode;
+        this.verified = verified;
     }
 
     public String getId() {
@@ -35,6 +42,14 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public boolean isVerified() {
+        return verified;
     }
 
 }
