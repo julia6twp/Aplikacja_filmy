@@ -27,7 +27,7 @@ public class MailService {
 
     public void sendMail(String to, MailStructure mailStructure) {
         User user = userRepository.findByEmail(to);
-        if (user == null) {throw new RuntimeException("User not found");}
+        if (user == null) {throw new RuntimeException("Nie znaleziono użytkownika!");}
 
         String code = VerificationCodeGenerator.generate();
         user.setVerificationCode(code);
@@ -38,6 +38,24 @@ public class MailService {
         message.setSubject(mailStructure.getSubject());
         message.setText(mailStructure.getMessage()+code);
         mailSender.send(message);
+    }
+
+    public String verifyCode(String to, String code) {
+        User user = userRepository.findByEmail(to);
+        if (user == null) {throw new RuntimeException("Nie znaleziono użytkownika!");}
+
+        if(user.isVerified()) {return "Konto zostało już zweryfikowane";}
+
+        if(code.equals(user.getVerificationCode())) {
+            user.setVerified(true);
+            user.setVerificationCode(null);
+            userRepository.save(user);
+            return "Konto zostało zweryfikowane";
+        }
+        else {
+            return "Błędny kod weryfikacyjny";
+        }
+
     }
 
 }

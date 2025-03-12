@@ -6,7 +6,7 @@ hasło
 
 ## Jak powstaje?
 1. Użytkownik podaje maila, login i hasło i wciska przycisk
-2. Serwer wysyła mu maila z kodem weryikacyjnym
+2. Serwer wysyła mu maila z kodem weryikacyjnym i zapisuje konto jako niezweryfikowane
 3. Użytkownik otwiera maila i wpiuje kod do aplikacji
 
 3. Jezeli uzytkownik nie wpisze kodu (kod jest mozliwy do wpisania przez 10 minut) to ma mozliwosc ponownego wygenerowania kodu
