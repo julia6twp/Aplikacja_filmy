@@ -1,13 +1,20 @@
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import SearchPage from "./pages/SearchPage";
+import AccountPage from "./pages/AccountPage";
+import SignUpPage from "./pages/SignUpPage";
+import LoginInPage from "./pages/LogInPage";
+import VerifyPage from "./pages/VerifyPage";
 
 function App() {
   return (
       <div className="main">
-          <h1>Find your movie</h1>
           <Routes>
               <Route path="/" element={<SearchPage />} />
+              <Route path="/account" element={<AccountPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/login" element={<LoginInPage/>} />
+              <Route path="/verify" element={<VerifyPage/>} />
           </Routes>
       </div>
   );
