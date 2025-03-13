@@ -3,6 +3,8 @@ package com.example.demo.controller;
 
 
 import com.example.demo.model.LoginStructure;
+import com.example.demo.model.NewPasswordStructure;
+import com.example.demo.model.NewUsernameStructure;
 import com.example.demo.model.User;
 import com.example.demo.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,4 +30,13 @@ public class LoginController {
         return loginService.login(loginStructure.getLogin(),loginStructure.getPassword());
     }
 
+    @PostMapping("/newPassword")
+    public User changePassword(@RequestBody NewPasswordStructure newPasswordStructure) {
+        return loginService.changePassword(newPasswordStructure.getUsername(),newPasswordStructure.getOldPassword(),newPasswordStructure.getNewPassword());
+    }
+
+    @PostMapping("/newUsername")
+    public User changeUsername(@RequestBody NewUsernameStructure newUsernameStructure) {
+        return loginService.changeUsername(newUsernameStructure.getOldUsername(),newUsernameStructure.getNewUsername());
+    }
 }

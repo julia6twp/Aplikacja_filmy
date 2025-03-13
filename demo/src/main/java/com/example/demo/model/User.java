@@ -15,6 +15,7 @@ public class User {
     @Id
     private String id;
     @Getter
+    @Setter
     private String name;
     @Getter
     private String email;
