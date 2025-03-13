@@ -73,6 +73,8 @@ public class MailService {
         User user = userRepository.findByEmail(to);
         
         if (user == null) {throw new UserNotFoundException("Nie znaleziono użytkownika!");}
+
+//        if(!user.isVerified()) {return "Konto nie zostało jeszcze zweryfikowane, nie można zresetować hasła";}
         
         if(user.getCodeExpiration().isBefore(LocalDateTime.now())) {
             throw new ExpiredVerificationCodeException( "Kod weryfikacyjny wygasł, wygeneruj nowy");
