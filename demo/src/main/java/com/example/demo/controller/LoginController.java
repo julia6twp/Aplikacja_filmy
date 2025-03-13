@@ -2,10 +2,7 @@ package com.example.demo.controller;
 
 
 
-import com.example.demo.model.LoginStructure;
-import com.example.demo.model.NewPasswordStructure;
-import com.example.demo.model.NewUsernameStructure;
-import com.example.demo.model.User;
+import com.example.demo.model.*;
 import com.example.demo.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,5 +35,10 @@ public class LoginController {
     @PostMapping("/newUsername")
     public User changeUsername(@RequestBody NewUsernameStructure newUsernameStructure) {
         return loginService.changeUsername(newUsernameStructure.getOldUsername(),newUsernameStructure.getNewUsername());
+    }
+
+    @PostMapping("/resetPassword")
+    public User resetPassword(@RequestBody ResetPasswordStructure resetPasswordStructure) {
+        return loginService.resetPassword(resetPasswordStructure.getMail(),resetPasswordStructure.getNewPassword());
     }
 }

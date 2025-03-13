@@ -78,4 +78,16 @@ public class LoginService {
         return userRepository.save(user);
     }
 
+    public User resetPassword(String mail, String newPassword) {
+        User user= userRepository.findByEmail(mail);
+
+        if(passwordEncoder.matches(newPassword, user.getPassword())) {
+            System.out.println("Reset password");
+            throw new InvalidNewPasswordException("Podane nowe hasło jest takie samo jak poprzednie");
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        return userRepository.save(user);
+
+    }
+
 }

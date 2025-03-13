@@ -1,5 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.exceptions.ExpiredVerificationCodeException;
+import com.example.demo.exceptions.IncorrectVerificationCodeException;
+import com.example.demo.exceptions.UserNotFoundException;
 import com.example.demo.model.MailStructure;
 import com.example.demo.model.User;
 import com.example.demo.model.VerificationCodeGenerator;
@@ -65,5 +68,20 @@ public class MailService {
         }
 
     }
+
+    public void verifyMailForChangePassword(String to, String code) {
+        User user = userRepository.findByEmail(to);
+        
+        if (user == null) {throw new UserNotFoundException("Nie znaleziono użytkownika!");}
+        
+        if(user.getCodeExpiration().isBefore(LocalDateTime.now())) {
+            throw new ExpiredVerificationCodeException( "Kod weryfikacyjny wygasł, wygeneruj nowy");
+        }
+
+        if(!code.equals(user.getVerificationCode())) {
+            throw new IncorrectVerificationCodeException("Błędny kod weryfikacyjny");
+        } 
+
+    }  
 
 }
