@@ -14,11 +14,14 @@ public class User {
     @Getter
     @Id
     private String id;
+
     @Getter
     @Setter
     private String name;
+
     @Getter
     private String email;
+
     @Getter
     @Setter
     private String password;
@@ -26,6 +29,7 @@ public class User {
     @Getter
     @Setter
     private String verificationCode;
+
     @Getter
     @Setter
     private boolean verified;

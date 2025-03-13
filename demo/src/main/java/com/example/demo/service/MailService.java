@@ -69,7 +69,7 @@ public class MailService {
 
     }
 
-    public void verifyMailForChangePassword(String to, String code) {
+    public void verifyCodeForChangePassword(String to, String code) {
         User user = userRepository.findByEmail(to);
         
         if (user == null) {throw new UserNotFoundException("Nie znaleziono użytkownika!");}

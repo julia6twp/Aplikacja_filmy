@@ -24,4 +24,9 @@ public class MailController {
     return mailService.verifyCode(mailRequest.getMail(),mailRequest.getCode());
     }
 
+    @PostMapping("/verify/reset")
+    public void verifyCodeForResetPassword(@RequestBody MailRequest mailRequest) {
+        mailService.verifyCodeForChangePassword(mailRequest.getMail(), mailRequest.getCode());
+    }
+
 }
