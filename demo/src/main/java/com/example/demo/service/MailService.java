@@ -10,6 +10,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class MailService {
 
@@ -31,6 +33,7 @@ public class MailService {
 
         String code = VerificationCodeGenerator.generate();
         user.setVerificationCode(code);
+        user.setCodeExpiration(LocalDateTime.now().plusMinutes(10));
         userRepository.save(user);
 
         SimpleMailMessage message = new SimpleMailMessage();
@@ -45,6 +48,11 @@ public class MailService {
         if (user == null) {throw new RuntimeException("Nie znaleziono użytkownika!");}
 
         if(user.isVerified()) {return "Konto zostało już zweryfikowane";}
+
+//        dodać usuwanie konta z bazy danych po 30 minutach, jeżeli nie wygenerowany nowy kod ???
+        if(user.getCodeExpiration().isBefore(LocalDateTime.now())) {
+            return "Kod weryfikacyjny wygasł, wygeneruj nowy";
+        }
 
         if(code.equals(user.getVerificationCode())) {
             user.setVerified(true);

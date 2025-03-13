@@ -25,9 +25,5 @@ public class UserController {
         return userService.createUser(user);
     }
 
-//    @PostMapping("/newAccount")
-//    public User createNewAccount(@RequestBody User user) {
-//    createUser(user);
-//    }
 
 }
