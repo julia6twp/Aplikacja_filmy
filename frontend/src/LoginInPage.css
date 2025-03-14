@@ -1,0 +1,63 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1f1f1f;
+    margin: 0;
+    padding: 0;
+}
+.box-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.box {
+    width: 520px;
+    height: 450px;
+    /*border: 3px solid lavender;*/
+    border-radius: 5px;
+    text-align: center;
+    margin: 10px;
+    padding: 10px;
+    /*background-color: #333;*/
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    font-size: 2rem;
+    color: lavender;
+    text-align: center;
+    /*padding: 8px;*/
+}
+
+.field {
+    width: 100%;  /* Pola zajmują pełną szerokość kontenera */
+    margin-bottom: 15px;  /* Odstęp między polami */
+}
+
+.field .MuiFilledInput-root {
+    background-color: lavender;
+    color: black;
+}
+
+.field .MuiInputLabel-root {
+    color: black;
+}
+
+.field .MuiFilledInput-underline:before {
+    border-bottom: 2px solid black;
+}
+
+.field .MuiFilledInput-underline:hover:before {
+    border-bottom: 2px solid black;
+}
+
+.field .MuiFilledInput-root:hover {
+    background-color: grey !important;
+}
+
+.field .MuiFilledInput-root.Mui-focused {
+    background-color: grey !important;
+}

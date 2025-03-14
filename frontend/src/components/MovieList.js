@@ -12,7 +12,7 @@ const MovieList = ({ movies, title }) => {
             )}
         <Grid2 container spacing={2} justifyContent="center">
             {movies.map((movie) => (
-                <Grid2 item key={movie.id}>
+                <Grid2 key={movie.id}>
                     <MovieCard title={movie.title} poster={movie.poster} />
                 </Grid2>
             ))}
