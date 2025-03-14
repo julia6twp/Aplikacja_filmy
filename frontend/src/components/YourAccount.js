@@ -11,12 +11,6 @@ const YourAccount = () => {
     const auth = useAuth()
     const navigate = useNavigate()
 
-    // useEffect(() => {
-    //     if (!auth.user) {
-    //         navigate('/login');
-    //     }
-    // }, [auth.user, navigate]);
-
     const handleLogout = () =>{
         auth.logout()
         navigate('/')
