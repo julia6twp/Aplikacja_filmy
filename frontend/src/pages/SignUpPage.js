@@ -110,12 +110,12 @@ const SignUpPage = () => {
                         helperText={errors.confirmPassword}
                     />
 
-                    <Button variant="contained" color="primary" sx={{ marginTop: 2 }} onClick={handleSubmit}>
+                    <Button variant="contained" color="primary" sx={{marginTop: 2}} onClick={handleSubmit}>
                         Sign Up
                     </Button>
 
-                    <p style={{ color: 'white' }}>
-                        Do you already have an account? <Link to="/login" style={{ color: 'Blue' }}>Log In</Link>
+                    <p style={{color: 'white'}}>
+                        Do you already have an account? <Link to="/login" style={{color: 'LightBlue'}}>Log In</Link>
                     </p>
                 </div>
             </div>

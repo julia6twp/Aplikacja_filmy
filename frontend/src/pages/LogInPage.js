@@ -80,8 +80,11 @@ const LoginInPage = () => {
                     </form>
 
                     <div>
-                        <p style={{ color: "white" }}>
-                            Don't have an account? <Link to="/signup" style={{ color: "Blue" }}>Sign Up</Link>
+                        <p style={{color: "white"}}>
+                            Don't have an account? <Link to="/signup" style={{color: "LightBlue"}}>Sign Up</Link>
+                        </p>
+                        <p style={{color: 'white'}}>
+                            Forgot a password? <Link to="/resetPassword" style={{color: 'LightBlue'}}>Click here!</Link>
                         </p>
                     </div>
                 </div>
