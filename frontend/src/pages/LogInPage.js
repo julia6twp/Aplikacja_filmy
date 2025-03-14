@@ -2,19 +2,30 @@ import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import React, { useState } from "react";
 import "../LoginInPage.css";
 import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {useAuth} from "../utils/auth";
+
 
 const LoginInPage = () => {
-    const [emailOrLogin, setEmailOrLogin] = useState("");
+    const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
-    const [errors, setErrors] = useState({ emailOrLogin: "", password: "" });
+    const [errors, setErrors] = useState({ user: "", password: "" });
+
+    const auth = useAuth();
+    const navigate = useNavigate()
+
+    const handleLogin = () =>{
+        const loggedUser = { user, email: "user@example.com" };
+        auth.login(loggedUser);
+        navigate('/account', {replace: true})
+    }
 
     const validateForm = () => {
-        let newErrors = { emailOrLogin: "", password: "" };
+        let newErrors = { user: "", password: "" };
         let isValid = true;
 
-        if (!emailOrLogin.trim()) {
-            newErrors.emailOrLogin = "Login name or e-mail is required";
+        if (!user.trim()) {
+            newErrors.user = "Login name is required";
             isValid = false;
         }
 
@@ -28,18 +39,21 @@ const LoginInPage = () => {
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault();  //zatzymanie przeladwania strony
+        e.preventDefault();  // Zatrzymanie przeładowania strony
         if (validateForm()) {
-            console.log("Logging in with:", emailOrLogin, password);
+            handleLogin();
+        } else {
+            console.log("Form validation failed");
         }
     };
-
     return (
         <>
             <AppBar position="fixed" sx={{ backgroundColor: "#333" }}>
                 <Toolbar>
                     <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-                        <Typography variant="h6">FindYourMovie</Typography>
+                        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <Typography variant="h6">FindYourMovie</Typography>
+                        </Link>
                     </Box>
                 </Toolbar>
             </AppBar>
@@ -52,12 +66,12 @@ const LoginInPage = () => {
                     <form onSubmit={handleSubmit}>
                         <TextField
                             className="field"
-                            label="Login name / E-mail"
+                            label="Login name"
                             variant="filled"
-                            value={emailOrLogin}
-                            onChange={(e) => setEmailOrLogin(e.target.value)}
-                            error={Boolean(errors.emailOrLogin)}
-                            helperText={errors.emailOrLogin}
+                            value={user}
+                            onChange={(e) => setUser(e.target.value)}
+                            error={Boolean(errors.user)}
+                            helperText={errors.user}
                             fullWidth
                             sx={{ marginBottom: 2 }}
                         />

@@ -56,7 +56,9 @@ const SignUpPage = () => {
             <AppBar position="fixed" sx={{ backgroundColor: '#333' }}>
                 <Toolbar>
                     <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-                        <Typography variant="h6">FindYourMovie</Typography>
+                        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <Typography variant="h6">FindYourMovie</Typography>
+                        </Link>
                     </Box>
                 </Toolbar>
             </AppBar>
