@@ -29,3 +29,13 @@ export const searchPopularMovies = async () => {
         return null;
     }
 }
+
+export const fetchMovieDetails = async (movieId) => {
+    try {
+        const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=watch/providers`);
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching movie details:", error);
+        return null;
+    }
+};

@@ -1,0 +1,48 @@
+.movie-details-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 40px;
+    margin-top: 50px;
+}
+
+.movie-poster img {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    max-width: 300px;
+}
+
+.movie-info {
+    max-width: 600px;
+    color: lavender;
+}
+
+.movie-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: lavender;
+}
+
+.movie-rating {
+    color: gray;
+    margin-bottom: 15px;
+    color: lavender;
+}
+
+.movie-overview {
+    line-height: 1.6;
+    color: lavender;
+}
+
+.movie-providers {
+    margin-top: 20px;
+    color: lavender;
+}
+
+.provider-logos {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+    color: lavender;
+}

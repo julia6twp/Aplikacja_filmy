@@ -8,6 +8,7 @@ import VerifyPage from "./pages/VerifyPage";
 import PasswordResetPage from "./pages/PasswordResetPage";
 import {AuthProvider} from "./utils/auth";
 import {RequireAuth} from "./components/RequireAuth";
+import MovieDetailsPage from "./pages/MovieDetailsPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
                   <Route path="/signup" element={<SignUpPage />} />
                   <Route path="/login" element={<LoginInPage/>} />
                   <Route path="/verify" element={<VerifyPage/>} />
+                  <Route path="/movie/:id" element={<MovieDetailsPage />} />
                   <Route path="/resetPassword" element={<PasswordResetPage/>} />
               </Routes>
           </div>

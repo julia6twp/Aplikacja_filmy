@@ -1,9 +1,10 @@
-import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
+import { Button} from "@mui/material";
 import React, { useState } from "react";
 import "../LoginInPage.css";
 import TextField from "@mui/material/TextField";
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../utils/auth";
+import Navbar from "../components/Navbar";
 
 
 const LoginInPage = () => {
@@ -48,15 +49,7 @@ const LoginInPage = () => {
     };
     return (
         <>
-            <AppBar position="fixed" sx={{ backgroundColor: "#333" }}>
-                <Toolbar>
-                    <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-                        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <Typography variant="h6">FindYourMovie</Typography>
-                        </Link>
-                    </Box>
-                </Toolbar>
-            </AppBar>
+            <Navbar/>
 
             <div className="box-container">
                 <div className="box">

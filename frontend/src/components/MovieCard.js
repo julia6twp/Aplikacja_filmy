@@ -1,9 +1,26 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardMedia, CardContent, Typography } from "@mui/material";
 
-const MovieCard = ({ title, poster }) => {
+const MovieCard = ({ id, title, poster }) => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/movie/${id}`);
+    };
+
     return (
-        <Card sx={{ width: 200, position: "relative", borderRadius: 2, overflow: "hidden", margin: "18px" }}>
+        <Card
+            onClick={handleClick}
+            sx={{
+                width: 200,
+                position: "relative",
+                borderRadius: 2,
+                overflow: "hidden",
+                margin: "18px",
+                cursor: "pointer",
+            }}
+        >
             <CardMedia
                 component="img"
                 height="300"
@@ -17,7 +34,7 @@ const MovieCard = ({ title, poster }) => {
                     width: "100%",
                     background: "rgba(0, 0, 0, 0.6)",
                     color: "white",
-                    padding: "2px",
+                    padding: "4px",
                     textAlign: "center",
                 }}
             >
