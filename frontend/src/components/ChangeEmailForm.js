@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import "../YourAccount.css";
+import {useAuth} from "../utils/auth";
 
 const ChangeEmailForm = ({ userEmail, onCancel }) => {
     const [email, setEmail] = useState(userEmail);
     const [newEmail, setNewEmail] = useState("");
     const [error, setError] = useState("");
+    const auth = useAuth()
+
+    // const { updateEmail } = useAuth();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -13,6 +17,8 @@ const ChangeEmailForm = ({ userEmail, onCancel }) => {
             setError("Invalid email format");
             return;
         }
+        // updateEmail(newEmail)
+        auth.updateEmail(newEmail);
         alert("Email changed successfully!");
         onCancel();
     };

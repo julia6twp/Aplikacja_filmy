@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
 }
-.box-container {
+.box-container1 {
     display: flex;
     justify-content: center;
     align-items: center;

@@ -55,7 +55,7 @@ const SignUpPage = () => {
     return (
         <>
             <Navbar/>
-            <div className="box-container">
+            <div className="box-container1">
                 <div className="box">
                     <h2>Create an account</h2>
 

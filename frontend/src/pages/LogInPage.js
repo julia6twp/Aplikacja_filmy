@@ -16,7 +16,7 @@ const LoginInPage = () => {
     const navigate = useNavigate()
 
     const handleLogin = () =>{
-        const loggedUser = { user, email: "user@example.com" };
+        const loggedUser = { user, email: "pierwszy@example.com" };
         auth.login(loggedUser);
         navigate('/account', {replace: true})
     }
@@ -51,7 +51,7 @@ const LoginInPage = () => {
         <>
             <Navbar/>
 
-            <div className="box-container">
+            <div className="box-container1">
                 <div className="box">
                     <div>
                         <h2>Login</h2>
