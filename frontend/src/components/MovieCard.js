@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import { Card, CardMedia, CardContent, Typography } from "@mui/material";
 
 const MovieCard = ({ id, title, poster }) => {
@@ -19,6 +19,13 @@ const MovieCard = ({ id, title, poster }) => {
                 overflow: "hidden",
                 margin: "18px",
                 cursor: "pointer",
+                border: "solid 1px grey",
+                boxShadow: "10px 10px 10px #000000",
+                transition: "all 0.4s ease-in-out",
+                "&:hover": {
+
+                    transform: "scale(1.10)",
+                },
             }}
         >
             <CardMedia

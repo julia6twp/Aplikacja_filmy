@@ -20,19 +20,22 @@
 
 .movie-title {
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
     color: lavender;
+    padding-bottom: 20px;
 }
 
 .movie-rating {
     color: gray;
     margin-bottom: 15px;
     color: lavender;
+    padding-bottom: 20px;
 }
 
 .movie-overview {
     line-height: 1.6;
     color: lavender;
+    padding-bottom: 20px;
 }
 
 .movie-providers {
