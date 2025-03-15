@@ -1,9 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.exceptions.IncorrectPasswordException;
-import com.example.demo.exceptions.InvalidNewPasswordException;
-import com.example.demo.exceptions.UnavailableNameException;
-import com.example.demo.exceptions.UserNotFoundException;
+import com.example.demo.exceptions.*;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +24,8 @@ public class LoginService {
 
         if (mailexp != null) { throw new UnavailableNameException("Użytkownik o mailu - "+ mailexp.getEmail()+" - juz istnieje"); }
         if(loginexp != null) {throw new UnavailableNameException("Użytwkonik o nazwie - " + loginexp.getName()+" - juz istnieje"); }
+
+        if(user.getPassword().length() < 6) {throw new TooShortPasswordException("Podane hasło jest za krótkie");}
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
@@ -55,6 +54,8 @@ public class LoginService {
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
             throw new IncorrectPasswordException("Błędne hasło");
         }
+
+        if(newPassword.length() < 6) {throw new TooShortPasswordException("Podane hasło jest za krótkie");}
 
         if(newPassword.equals(oldPassword)) {
             throw new InvalidNewPasswordException("Podane nowe hasło jest takie samo jak poprzednie");
@@ -85,6 +86,9 @@ public class LoginService {
             System.out.println("Reset password");
             throw new InvalidNewPasswordException("Podane nowe hasło jest takie samo jak poprzednie");
         }
+
+        if(newPassword.length() < 6) {throw new TooShortPasswordException("Podane hasło jest za krótkie");}
+
         user.setPassword(passwordEncoder.encode(newPassword));
         return userRepository.save(user);
 
