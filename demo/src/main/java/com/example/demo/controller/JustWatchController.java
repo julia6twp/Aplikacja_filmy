@@ -40,4 +40,10 @@ public class JustWatchController {
     public String searchPopularFilms(){
         return justWatchService.searchPopularFilms();
     }
+
+    @GetMapping("/{id}/poster")
+    public String getFilmPoster(@PathVariable Integer id) {
+    return justWatchService.searchFilmPoster(id);
+    }
+
 }
