@@ -13,6 +13,7 @@ jego kodu ID
 - searchFilmBySearchTerm - zwraca informacje o filmie po wyszukaniu jego nazwy
 - searchTopRankedFilms - zwracca ranking nalepiej ocenianych filmów 
 - searchPopularFilms - zwraca ostatnio(chyba) najbardziej popularne filmy
+- getFilmPoster - zwraca plakat filmu
 
 ### Klasa LoginController
 Klasa zawiera wszystykie requesty związane z operacjami na koncie uzytkownika:
