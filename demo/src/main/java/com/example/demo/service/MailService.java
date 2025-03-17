@@ -52,7 +52,6 @@ public class MailService {
 
         if(user.isVerified()) {return "Konto zostało już zweryfikowane";}
 
-//        dodać usuwanie konta z bazy danych po 30 minutach, jeżeli nie wygenerowany nowy kod ???
         if(user.getCodeExpiration().isBefore(LocalDateTime.now())) {
             return "Kod weryfikacyjny wygasł, wygeneruj nowy";
         }

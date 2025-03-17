@@ -15,10 +15,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Wyłączenie CSRF (testowo)*
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/account/**","/justwatch/**", "/api/hello","/mail/**","/mail/verify/**").permitAll() // Rejestracja i weryfikacja dostępne dla wszystkich
-                        .anyRequest().authenticated() // Wszystkie inne endpointy wymagają logowania
+                        .requestMatchers("/account/**","/justwatch/**", "/api/hello","/mail/**").permitAll() // tymczasowo
+                        .anyRequest().authenticated()
                 );
 
         return http.build();
