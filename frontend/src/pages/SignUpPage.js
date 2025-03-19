@@ -1,9 +1,10 @@
-import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
+import {  Button } from "@mui/material";
 import React, { useState } from "react";
 import '../LoginInPage.css';
 import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 const SignUpPage = () => {
     const [login, setLogin] = useState("");
@@ -53,17 +54,8 @@ const SignUpPage = () => {
 
     return (
         <>
-            <AppBar position="fixed" sx={{ backgroundColor: '#333' }}>
-                <Toolbar>
-                    <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
-                        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <Typography variant="h6">FindYourMovie</Typography>
-                        </Link>
-                    </Box>
-                </Toolbar>
-            </AppBar>
-
-            <div className="box-container">
+            <Navbar/>
+            <div className="box-container1">
                 <div className="box">
                     <h2>Create an account</h2>
 
