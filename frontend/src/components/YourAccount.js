@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Typography } from '@mui/material';
-import ChangeEmailForm from './ChangeEmailForm';
+import ChangeLoginForm from './ChangeLoginForm';
 import ChangePasswordForm from './ChangePasswordForm';
 import '../YourAccount.css';
 import {useAuth} from "../utils/auth";
@@ -34,9 +34,9 @@ const YourAccount = () => {
                     <Button
                         variant="contained"
                         sx={{marginTop: 2, marginRight: 1}}
-                        onClick={() => setView("changeEmail")}
+                        onClick={() => setView("changeLogin")}
                     >
-                        Change your email
+                        Change your login
                     </Button>
                     <Button
                         variant="contained"
@@ -56,8 +56,8 @@ const YourAccount = () => {
                 </>
             )}
 
-                {view === "changeEmail" &&
-                    <ChangeEmailForm userEmail={auth.user.email} onCancel={() => setView("account")}/>}
+                {view === "changeLogin" &&
+                    <ChangeLoginForm userEmail={auth.user.email} onCancel={() => setView("account")}/>}
                 {view === "changePassword" &&
                     <ChangePasswordForm userEmail={auth.user.email} onCancel={() => setView("account")}/>}
             </div>

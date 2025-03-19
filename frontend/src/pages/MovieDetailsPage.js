@@ -20,17 +20,6 @@ const MovieDetailsPage = () => {
         }
     }, [id, savedMovies]);
 
-    const toggleFavorite = () => {
-        setIsFavorite((prev) => !prev);
-        if (isFavorite) {
-            const updatedMovies = savedMovies.filter((movie) => movie.id !== id);
-            localStorage.setItem("savedMovies", JSON.stringify(updatedMovies));
-        } else {
-            const updatedMovies = [...savedMovies, movie];
-            localStorage.setItem("savedMovies", JSON.stringify(updatedMovies));
-        }
-    };
-
     useEffect(() => {
         const getMovieDetails = async () => {
             const data = await fetchMovieDetails(id);
@@ -54,6 +43,7 @@ const MovieDetailsPage = () => {
                 <Box className="movie-info">
                     <Typography variant="h4" className="movie-title">
                         {movie.title}
+                        <FavoriteMovieButton movie={movie}/>
                     </Typography>
                     <Typography variant="h6" className="movie-rating">
                         Raiting: {movie.vote_average}/10⭐
@@ -61,7 +51,6 @@ const MovieDetailsPage = () => {
                     <Typography variant="body1" className="movie-overview">
                         {movie.overview}
                     </Typography>
-                    <FavoriteMovieButton movie={movie}/>
 
                     {movie["watch/providers"]?.results?.PL ? (
                         movie["watch/providers"].results.PL.flatrate?.length > 0 ? (

@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import IconButton from "@mui/material/IconButton";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const FavoriteMovieButton = ({ movie }) => {
     const [isFavorite, setIsFavorite] = useState(false);
@@ -23,17 +26,13 @@ const FavoriteMovieButton = ({ movie }) => {
     };
 
     return (
-        <div onClick={toggleFavorite}>
+        <IconButton onClick={toggleFavorite} aria-label="toggle favorite" sx={{marginLeft: "15px" }}>
             {isFavorite ? (
-                <span role="img" aria-label="favorite" style={{ fontSize: "30px", color: "red" }}>
-                    ❤️
-                </span>
+                <FavoriteIcon sx={{ fontSize: 45, color: "red" }} />
             ) : (
-                <span role="img" aria-label="not favorite" style={{ fontSize: "30px" }}>
-                    🤍
-                </span>
+                <FavoriteBorderIcon sx={{ fontSize: 45, color: "white" }} />
             )}
-        </div>
+        </IconButton>
     );
 };
 
