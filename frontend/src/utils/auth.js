@@ -12,13 +12,45 @@ export const AuthProvider = ({children}) => {
         setUser(null)
     }
 
+    const register = async (login, email, password) => {
+        try {
+            const response = await fetch("http://localhost:8080/account/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ login, email, password }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Registration failed");
+            }
+
+            const userData = await response.json();
+
+            // Wyślij kod weryfikacyjny na e-mail
+            const mailResponse = await fetch(`http://localhost:8080/mail/send/${email}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({}),
+            });
+
+            if (!mailResponse.ok) {
+                throw new Error("Failed to send verification email");
+            }
+
+            return userData;
+        } catch (error) {
+            console.error("Error during registration:", error);
+            return null;
+        }
+    };
+
     const updateLogin = (newLogin) => {
         setUser(prevUser => ({ ...prevUser, login: newLogin }));
         localStorage.setItem("user", JSON.stringify({ ...user, login: newLogin }));
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, updateLogin }}>
+        <AuthContext.Provider value={{ user, login, logout, register ,updateLogin }}>
             {children}
         </AuthContext.Provider>
     )
