@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import {useAuth} from "../utils/auth";
 
 const SignUpPage = () => {
     const [login, setLogin] = useState("");
@@ -13,6 +14,8 @@ const SignUpPage = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
+    const [serverError, setServerError] = useState("");
+    const { register } = useAuth();
 
     const validateForm = () => {
         let newErrors = {};
@@ -43,12 +46,17 @@ const SignUpPage = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setServerError("");
 
         if (validateForm()) {
-            setErrors({});
-            navigate("/verify");
+            const result = await register(login, email, password);
+            if (result) {
+                navigate("/verify", { state: { email } });
+            } else {
+                setServerError("Registration failed. Try again.");
+            }
         }
     };
 
@@ -58,6 +66,8 @@ const SignUpPage = () => {
             <div className="box-container1">
                 <div className="box">
                     <h2>Create an account</h2>
+
+                    {serverError && <p style={{ color: "red" }}>{serverError}</p>}
 
                     <TextField
                         className="field"

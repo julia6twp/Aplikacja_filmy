@@ -8,7 +8,7 @@ import {useNavigate} from "react-router-dom";
 
 const YourAccount = () => {
     const [view, setView] = useState("account");
-    const auth = useAuth()
+    const auth = useAuth()   //hook do pobrania danych o użytkowniku
     const navigate = useNavigate()
 
     const handleLogout = () =>{
@@ -25,10 +25,10 @@ const YourAccount = () => {
                         Your Data
                     </h2>
                     <Typography variant="h5" sx={{color: 'white'}}>
-                        Email: {auth.user?.email}
+                        Login: {auth.user?.user}
                     </Typography>
                     <Typography variant="h5" sx={{color: 'white'}}>
-                        Login: {auth.user?.user}
+                        Email: {auth.user?.email}
                     </Typography>
 
                     <Button

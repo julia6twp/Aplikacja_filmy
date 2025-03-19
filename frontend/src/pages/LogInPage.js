@@ -5,21 +5,35 @@ import TextField from "@mui/material/TextField";
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../utils/auth";
 import Navbar from "../components/Navbar";
+import axios from "axios";
 
 
 const LoginInPage = () => {
     const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({ user: "", password: "" });
+    const [errorMessage, setErrorMessage] = useState("");
+    const [loginError, setLoginError] = useState("");
 
     const auth = useAuth();
     const navigate = useNavigate()
 
-    const handleLogin = () =>{
-        const loggedUser = { user, email: "pierwszy@example.com" };
-        auth.login(loggedUser);
-        navigate('/account', {replace: true})
-    }
+    const handleLogin = async () => {
+        try {
+            const response = await axios.post("http://localhost:8080/account/login", { username: user, password });
+
+            if (response.data === "Zalogowano pomyślnie") {
+                // const userData = { user: user, email: response.data.email };
+                auth.login({ user: user });
+                navigate('/account', { replace: true });
+            } else {
+                setLoginError(response.data);
+            }
+        } catch (error) {
+            console.error("Login failed:", error);
+            setLoginError("An error occurred while logging in");
+        }
+    };
 
     const validateForm = () => {
         let newErrors = { user: "", password: "" };
@@ -47,6 +61,7 @@ const LoginInPage = () => {
             console.log("Form validation failed");
         }
     };
+
     return (
         <>
             <Navbar/>
@@ -85,6 +100,8 @@ const LoginInPage = () => {
                             Log In
                         </Button>
                     </form>
+
+                    {loginError && <p style={{ color: "red" }}>{loginError}</p>}
 
                     <div>
                         <p style={{color: "white"}}>

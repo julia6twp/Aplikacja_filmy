@@ -1,17 +1,34 @@
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import TextField from "@mui/material/TextField";
 
 const VerifyPage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [code, setCode] = useState("");
     const [error, setError] = useState("");
+    const email = location.state?.email || "";
 
-    const handleVerify = () => {
-        if (code === "123456") {
+    const handleVerify = async () => {
+        if (!email) {
+            setError("No email found. Please register again.");
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:8080/mail/verify", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ mail: email, code }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Invalid verification code");
+            }
+
             navigate("/account");
-        } else {
+        } catch (error) {
             setError("Invalid verification code");
         }
     };
@@ -33,7 +50,7 @@ const VerifyPage = () => {
                 </Toolbar>
             </AppBar>
 
-            <div className="box-container">
+            <div className="box-container" style={{marginTop: "80px"}}>
                 <div className="box">
                     <h2>Verify Your Account</h2>
                     <p style={{ color: "white" }}>Check your email and enter the verification code.</p>
