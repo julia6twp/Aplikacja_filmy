@@ -46,35 +46,6 @@ const SignUpPage = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     setServerError("");
-    //
-    //     if (validateForm()) {
-    //         try {
-    //             const response = await fetch("http://localhost:8080/account/register", {
-    //                 method: "POST",
-    //                 headers: {
-    //                     "Content-Type": "application/json",
-    //                 },
-    //                 body: JSON.stringify({
-    //                     username: login,
-    //                     email: email,
-    //                     password: password,
-    //                 }),
-    //             });
-    //
-    //             if(response.ok){
-    //                 navigate("/verify");
-    //             }else{
-    //                 const errorData = await response.json();
-    //                 setServerError(errorData.message || "Registration failed");
-    //             }
-    //         }catch (error) {
-    //             setServerError("Server error. Please try again later.");
-    //         }
-    //     }
-    // };
     const handleSubmit = async (e) => {
         e.preventDefault();
         setServerError("");

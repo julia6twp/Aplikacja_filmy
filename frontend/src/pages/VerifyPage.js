@@ -50,7 +50,7 @@ const VerifyPage = () => {
                 </Toolbar>
             </AppBar>
 
-            <div className="box-container">
+            <div className="box-container" style={{marginTop: "80px"}}>
                 <div className="box">
                     <h2>Verify Your Account</h2>
                     <p style={{ color: "white" }}>Check your email and enter the verification code.</p>
