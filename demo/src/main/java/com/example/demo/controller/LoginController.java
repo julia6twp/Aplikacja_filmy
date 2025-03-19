@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 
 
+import com.example.demo.DTO.LoginResponseDTO;
 import com.example.demo.model.*;
 import com.example.demo.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String loginUser(@RequestBody LoginStructure loginStructure) {
+    public LoginResponseDTO loginUser(@RequestBody LoginStructure loginStructure) {
         return loginService.login(loginStructure.getLogin(),loginStructure.getPassword());
     }
 
