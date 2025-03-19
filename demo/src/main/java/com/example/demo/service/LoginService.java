@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.DTO.LoginResponseDTO;
 import com.example.demo.exceptions.*;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
@@ -32,18 +33,18 @@ public class LoginService {
     }
 
 
-    public String login(String username, String password) {
+    public LoginResponseDTO login(String username, String password) {
         Optional<User> userCheck= userRepository.findByEmailOrName(username, username);
-        if(userCheck.isEmpty()) {return "Błędna nazwa lub email";}
+        if(userCheck.isEmpty()) {throw new IncorrectLoginException( "Błędna nazwa lub email");}
 
         User user = userCheck.get();
-        if(!user.isVerified()){return "Niezweryfikowany użytkownik";}
+        if(!user.isVerified()){throw new UnverifiedUserException( "Niezweryfikowany użytkownik");}
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            return "Błędne hasło";
+            throw new IncorrectPasswordException( "Błędne hasło");
         }
 
-        return "Zalogowano pomyślnie";
+        return new LoginResponseDTO (user.getName(), user.getEmail(), user.getPassword());
     }
 
     public User changePassword(String username, String oldPassword, String newPassword) {
