@@ -5,11 +5,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Cancel";
 import {useAuth} from "../utils/auth";
+import {useNavigate} from "react-router-dom";
 
 const OpinionList = ({ opinions, setOpinions, allowEditing, allowAdding }) => {
     const [newComment, setNewComment] = useState("");
     const [isAddingComment, setIsAddingComment] = useState(false);
     const auth = useAuth()
+    const navigate = useNavigate();
 
     const handleDelete = (id) => {
         setOpinions(opinions.filter((opinion) => opinion.id !== id));
@@ -42,6 +44,11 @@ const OpinionList = ({ opinions, setOpinions, allowEditing, allowAdding }) => {
     };
 
     const handleAddComment = () => {
+        if (!auth.user) {
+            navigate("/login");
+            return;
+        }
+        setIsAddingComment(true);
         if (newComment.trim()) {
             const loggedInUser = auth.user ? auth.user.name : "Unknown User";
             const newOpinion = {
@@ -100,7 +107,8 @@ const OpinionList = ({ opinions, setOpinions, allowEditing, allowAdding }) => {
                         <Button
                             variant="contained"
                             color="primary"
-                            onClick={() => setIsAddingComment(true)}
+                            // onClick={() => setIsAddingComment(true)}
+                            onClick={handleAddComment}
                             sx={{ backgroundColor: "lightblue", color: "black", marginBottom: "15px" }}
                         >
                             Add Comment
