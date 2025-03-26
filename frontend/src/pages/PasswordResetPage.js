@@ -41,7 +41,7 @@ const PasswordResetPage = () => {
                 </Toolbar>
             </AppBar>
 
-            <div className="box-container">
+            <div className="box-container1">
                 <div className="box">
                     <h2>Forgot your password?</h2>
                     <p style={{ color: "white" }}>Enter your e-mail to reset your password.</p>

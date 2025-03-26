@@ -1,25 +1,36 @@
 import React, { useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import "../YourAccount.css";
+import {useAuth} from "../utils/auth";
 
-const ChangePasswordForm = ({ userEmail, onCancel }) => {
+const ChangePasswordForm = ({ onCancel }) => {
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
+    const auth = useAuth();
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         if (newPassword.length < 6) {
-            setError("Password must be at least 6 characters");
+            setError("Password must be at least 6 characters long.");
             return;
         }
+
         if (newPassword !== confirmPassword) {
-            setError("Passwords do not match");
+            setError("Passwords do not match.");
             return;
         }
-        alert("Password changed successfully!");
-        onCancel();
+
+        auth.changePassword(oldPassword, newPassword)
+            .then(() => {
+                alert("Password changed successfully!");
+                onCancel();
+            })
+            .catch((error) => {
+                setError(error.message || "The password cannot be the same as the old one.");
+            });
     };
 
     return (
@@ -32,9 +43,9 @@ const ChangePasswordForm = ({ userEmail, onCancel }) => {
                         label="Email"
                         variant="filled"
                         fullWidth
-                        value={userEmail}
+                        value={auth.user?.email || ""}
                         disabled
-                        sx={{marginBottom: 2}}
+                        sx={{ marginBottom: 2, backgroundColor: "grey", borderRadius: 1 }}
                     />
                     <TextField
                         className="field"

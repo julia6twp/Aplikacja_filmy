@@ -12,7 +12,6 @@ const LoginInPage = () => {
     const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({ user: "", password: "" });
-    const [errorMessage, setErrorMessage] = useState("");
     const [loginError, setLoginError] = useState("");
 
     const auth = useAuth();
@@ -20,18 +19,26 @@ const LoginInPage = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post("http://localhost:8080/account/login", { username: user, password });
+            const response = await axios.post("http://localhost:8080/account/login", {
+                login: user,
+                password: password
+            });
 
-            if (response.data === "Zalogowano pomyślnie") {
-                // const userData = { user: user, email: response.data.email };
-                auth.login({ user: user });
+            if (response.data.login && response.data.email) {
+                auth.login({
+                    name: response.data.login,
+                    email: response.data.email
+                });
+
                 navigate('/account', { replace: true });
+
             } else {
-                setLoginError(response.data);
+                setLoginError("Incorrect login details");
             }
         } catch (error) {
             console.error("Login failed:", error);
-            setLoginError("An error occurred while logging in");
+            console.error("Login failed:", error.response ? error.response.data : error.message);
+            setLoginError("Incorrect data details");
         }
     };
 
@@ -40,7 +47,7 @@ const LoginInPage = () => {
         let isValid = true;
 
         if (!user.trim()) {
-            newErrors.user = "Login name is required";
+            newErrors.user = "Login name or e-mail is required";
             isValid = false;
         }
 
@@ -74,7 +81,7 @@ const LoginInPage = () => {
                     <form onSubmit={handleSubmit}>
                         <TextField
                             className="field"
-                            label="Login name"
+                            label="Login / e-mail"
                             variant="filled"
                             value={user}
                             onChange={(e) => setUser(e.target.value)}

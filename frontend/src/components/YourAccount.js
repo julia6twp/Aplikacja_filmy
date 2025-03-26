@@ -25,10 +25,10 @@ const YourAccount = () => {
                         Your Data
                     </h2>
                     <Typography variant="h5" sx={{color: 'white'}}>
-                        Login: {auth.user?.user}
+                        Login:  {auth.user?.name}
                     </Typography>
                     <Typography variant="h5" sx={{color: 'white'}}>
-                        Email: {auth.user?.email}
+                        Email:  {auth.user?.email}
                     </Typography>
 
                     <Button
@@ -56,10 +56,9 @@ const YourAccount = () => {
                 </>
             )}
 
-                {view === "changeLogin" &&
-                    <ChangeLoginForm userEmail={auth.user.email} onCancel={() => setView("account")}/>}
-                {view === "changePassword" &&
-                    <ChangePasswordForm userEmail={auth.user.email} onCancel={() => setView("account")}/>}
+                {view === "changeLogin" && <ChangeLoginForm onCancel={() => setView("account")} />}
+                {view === "changePassword" && <ChangePasswordForm onCancel={() => setView("account")} />}
+
             </div>
         </div>
     );

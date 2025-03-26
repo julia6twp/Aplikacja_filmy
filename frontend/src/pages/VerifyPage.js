@@ -24,9 +24,11 @@ const VerifyPage = () => {
             });
 
             if (!response.ok) {
-                throw new Error("Invalid verification code");
+                const errorData = await response.json();
+                setError(errorData.message);
+                return;
             }
-
+            alert("Account created successfully!");
             navigate("/account");
         } catch (error) {
             setError("Invalid verification code");

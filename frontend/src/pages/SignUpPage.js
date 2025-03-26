@@ -8,7 +8,7 @@ import Navbar from "../components/Navbar";
 import {useAuth} from "../utils/auth";
 
 const SignUpPage = () => {
-    const [login, setLogin] = useState("");
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -20,7 +20,7 @@ const SignUpPage = () => {
     const validateForm = () => {
         let newErrors = {};
 
-        if (!login.trim()) {
+        if (!name.trim()) {
             newErrors.login = "Login name is required";
         }
 
@@ -51,7 +51,7 @@ const SignUpPage = () => {
         setServerError("");
 
         if (validateForm()) {
-            const result = await register(login, email, password);
+            const result = await register(name, email, password);
             if (result) {
                 navigate("/verify", { state: { email } });
             } else {
@@ -74,8 +74,8 @@ const SignUpPage = () => {
                         required
                         label="Login name"
                         variant="filled"
-                        value={login}
-                        onChange={(e) => setLogin(e.target.value)}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         error={!!errors.login}
                         helperText={errors.login}
                     />
