@@ -2,13 +2,16 @@ package com.example.demo.service;
 
 import com.example.demo.exceptions.ExpiredVerificationCodeException;
 import com.example.demo.exceptions.IncorrectVerificationCodeException;
+import com.example.demo.exceptions.UserIsAlreadyVerifiedException;
 import com.example.demo.exceptions.UserNotFoundException;
 import com.example.demo.model.MailStructure;
 import com.example.demo.model.User;
 import com.example.demo.model.VerificationCodeGenerator;
 import com.example.demo.repository.UserRepository;
+import io.netty.handler.codec.http.HttpStatusClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -32,7 +35,7 @@ public class MailService {
 
     public void sendMail(String to, MailStructure mailStructure) {
         User user = userRepository.findByEmail(to);
-        if (user == null) {throw new RuntimeException("Nie znaleziono użytkownika!");}
+        if (user == null) {throw new UserNotFoundException("Nie znaleziono użytkownika!");}
 
         String code = VerificationCodeGenerator.generate();
         user.setVerificationCode(code);
@@ -46,29 +49,29 @@ public class MailService {
         mailSender.send(message);
     }
 
-    public String verifyCode(String to, String code) {
+    public ResponseEntity<String> verifyCode(String to, String code) {
         User user = userRepository.findByEmail(to);
-        if (user == null) {throw new RuntimeException("Nie znaleziono użytkownika!");}
+        if (user == null) {throw new UserNotFoundException("Nie znaleziono użytkownika!");}
 
-        if(user.isVerified()) {return "Konto zostało już zweryfikowane";}
+        if(user.isVerified()) {throw new UserIsAlreadyVerifiedException( "Konto zostało już zweryfikowane");}
 
         if(user.getCodeExpiration().isBefore(LocalDateTime.now())) {
-            return "Kod weryfikacyjny wygasł, wygeneruj nowy";
+            throw new IncorrectVerificationCodeException( "Kod weryfikacyjny wygasł, wygeneruj nowy");
         }
 
         if(code.equals(user.getVerificationCode())) {
             user.setVerified(true);
             user.setVerificationCode(null);
             userRepository.save(user);
-            return "Konto zostało zweryfikowane";
+            return ResponseEntity.ok("Konto zostało zweryfikowane");
         }
         else {
-            return "Błędny kod weryfikacyjny";
+            throw new IncorrectVerificationCodeException( "Błędny kod weryfikacyjny");
         }
 
     }
 
-    public void verifyCodeForChangePassword(String to, String code) {
+    public ResponseEntity<String> verifyCodeForChangePassword(String to, String code) {
         User user = userRepository.findByEmail(to);
         
         if (user == null) {throw new UserNotFoundException("Nie znaleziono użytkownika!");}
@@ -81,8 +84,9 @@ public class MailService {
 
         if(!code.equals(user.getVerificationCode())) {
             throw new IncorrectVerificationCodeException("Błędny kod weryfikacyjny");
-        } 
+        }
 
+        return ResponseEntity.ok("Kod jest poprawny");
     }  
 
 }

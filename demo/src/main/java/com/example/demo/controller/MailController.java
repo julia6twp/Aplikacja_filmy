@@ -5,6 +5,7 @@ import com.example.demo.model.MailRequest;
 import com.example.demo.model.MailStructure;
 import com.example.demo.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -21,13 +22,13 @@ public class MailController {
     }
 
     @PostMapping("/verify")
-    public String verifyCode(@RequestBody MailRequest mailRequest) {
+    public ResponseEntity<String> verifyCode(@RequestBody MailRequest mailRequest) {
     return mailService.verifyCode(mailRequest.getMail(),mailRequest.getCode());
     }
 
     @PostMapping("/verify/reset")
-    public void verifyCodeForResetPassword(@RequestBody MailRequest mailRequest) {
-        mailService.verifyCodeForChangePassword(mailRequest.getMail(), mailRequest.getCode());
+    public ResponseEntity<String> verifyCodeForResetPassword(@RequestBody MailRequest mailRequest) {
+       return mailService.verifyCodeForChangePassword(mailRequest.getMail(), mailRequest.getCode());
     }
 
 }
