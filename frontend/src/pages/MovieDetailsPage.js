@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import {useParams} from "react-router-dom";
-import { fetchMovieDetails } from "../utils/searchQuery";
+import {fetchMovieDetails, fetchMoviePoster} from "../utils/searchQuery";
 import Navbar from "../components/Navbar";
 import {Box, Typography} from "@mui/material";
 import "../MovieDetailsPage.css";
 import FavoriteMovieButton from "../components/FavoriteMovieButton";
-
+import OpinionList from "../components/OpinionsList";
 
 const MovieDetailsPage = () => {
     const { id } = useParams();
     const [movie, setMovie] = useState(null);
     const [isFavorite, setIsFavorite] = useState(false);
+    const [poster, setPoster] = useState(null);
 
     const savedMovies = JSON.parse(localStorage.getItem("savedMovies")) || [];
+
+    const [opinions, setOpinions] = useState([
+        // { id: 1, text: "Świetny film! Polecam każdemu.", date: "2025-03-25", isEditing: false, originalText: "" },
+    ]);
 
     useEffect(() => {
         if (savedMovies.some((savedMovie) => savedMovie.id === id)) {
@@ -24,6 +29,8 @@ const MovieDetailsPage = () => {
         const getMovieDetails = async () => {
             const data = await fetchMovieDetails(id);
             setMovie(data);
+            const posterUrl = await fetchMoviePoster(id);
+            setPoster(posterUrl);
         };
         getMovieDetails();
     }, [id]);
@@ -37,16 +44,16 @@ const MovieDetailsPage = () => {
             <Navbar />
             <Box className="movie-details-container">
                 <Box className="movie-poster">
-                    <img src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt={movie.title} />
+                    <img src={poster} alt={movie.title} />
                 </Box>
 
                 <Box className="movie-info">
                     <Typography variant="h4" className="movie-title">
                         {movie.title}
-                        <FavoriteMovieButton movie={movie}/>
+                        <FavoriteMovieButton movie={movie} />
                     </Typography>
                     <Typography variant="h6" className="movie-rating">
-                        Raiting: {movie.vote_average}/10⭐
+                        Rating: {movie.vote_average}/10⭐
                     </Typography>
                     <Typography variant="body1" className="movie-overview">
                         {movie.overview}
@@ -79,6 +86,7 @@ const MovieDetailsPage = () => {
 
                 </Box>
             </Box>
+            <OpinionList opinions={opinions} setOpinions={setOpinions} allowEditing={false} allowAdding={true}/>
         </div>
     );
 };

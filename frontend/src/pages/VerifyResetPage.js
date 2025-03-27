@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import TextField from "@mui/material/TextField";
 
-const VerifyPage = () => {
+const VerifyResetPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [code, setCode] = useState("");
@@ -17,7 +17,7 @@ const VerifyPage = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:8080/mail/verify", {
+            const response = await fetch("http://localhost:8080/mail/verify/reset", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ mail: email, code }),
@@ -28,8 +28,8 @@ const VerifyPage = () => {
                 setError(errorData.message);
                 return;
             }
-            alert("Account created successfully!");
-            navigate("/account");
+            alert("Mail verified you can reset your password!");
+            navigate("/newPassword",{ state: { email } });
         } catch (error) {
             setError("Invalid verification code");
         }
@@ -83,4 +83,4 @@ const VerifyPage = () => {
     );
 };
 
-export default VerifyPage;
+export default VerifyResetPage;

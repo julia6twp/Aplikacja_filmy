@@ -3,8 +3,7 @@ import { Button, TextField } from '@mui/material';
 import "../YourAccount.css";
 import { useAuth } from "../utils/auth";
 
-const ChangeLoginForm = ({ userEmail, currentLogin, onCancel }) => {
-    const [login, setLogin] = useState(currentLogin);
+const ChangeLoginForm = ({ onCancel }) => {
     const [newLogin, setNewLogin] = useState("");
     const [error, setError] = useState("");
     const auth = useAuth();
@@ -16,9 +15,14 @@ const ChangeLoginForm = ({ userEmail, currentLogin, onCancel }) => {
             return;
         }
 
-        auth.updateLogin(newLogin);
-        alert("Login changed successfully!");
-        onCancel();
+        auth.updateLogin(newLogin)
+            .then(() => {
+                alert("Login changed successfully!");
+                onCancel();
+            })
+            .catch((error) => {
+                setError(error.message || "Username already exists. Try again.");
+            });
     };
 
     return (
@@ -31,7 +35,7 @@ const ChangeLoginForm = ({ userEmail, currentLogin, onCancel }) => {
                         label="Email"
                         variant="filled"
                         fullWidth
-                        value={userEmail}
+                        value={auth.user?.email || ""}
                         disabled
                         sx={{ marginBottom: 2, backgroundColor: "grey", borderRadius: 1 }}
                     />
@@ -40,7 +44,7 @@ const ChangeLoginForm = ({ userEmail, currentLogin, onCancel }) => {
                         label="Current Login"
                         variant="filled"
                         fullWidth
-                        value={login}
+                        value={auth.user?.name || ""}
                         disabled
                         sx={{ marginBottom: 2, backgroundColor: "grey", borderRadius: 1 }}
                     />

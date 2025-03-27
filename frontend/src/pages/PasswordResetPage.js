@@ -1,12 +1,13 @@
 import { AppBar, Box, Button, Toolbar, Typography, Alert } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import React, { useState } from "react";
 
 const PasswordResetPage = () => {
     const [email, setEmail] = useState("");
     const [errors, setErrors] = useState({});
     const [successMessage, setSuccessMessage] = useState("");
+    const navigate = useNavigate();
 
     const validateForm = () => {
         let newErrors = {};
@@ -20,14 +21,29 @@ const PasswordResetPage = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (validateForm()) {
-            setSuccessMessage("If this e-mail is registered, you will receive reset instructions.");
-            setErrors({});
-        } else {
-            setSuccessMessage("");
+            try {
+                const response = await fetch(`http://localhost:8080/mail/send/${email}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({}),
+                });
+
+                if (!response.ok) {
+                    setErrors({ email: "Failed to send reset code" });
+                    return;
+                }
+
+                setSuccessMessage("If this e-mail is registered, you will receive reset instructions.");
+                setTimeout(() => {
+                    navigate("/verifyReset", { state: { email } });
+                }, 2000);
+            } catch (error) {
+                setErrors({ email: "Error sending mail. Try again later." });
+            }
         }
     };
 
@@ -41,7 +57,7 @@ const PasswordResetPage = () => {
                 </Toolbar>
             </AppBar>
 
-            <div className="box-container">
+            <div className="box-container1">
                 <div className="box">
                     <h2>Forgot your password?</h2>
                     <p style={{ color: "white" }}>Enter your e-mail to reset your password.</p>

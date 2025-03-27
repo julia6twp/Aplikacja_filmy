@@ -1,29 +1,42 @@
-import {createContext, useContext, useState} from "react";
+import {createContext, useContext, useEffect, useState} from "react";
+import axios from "axios";
 
 const AuthContext = createContext(null)
 
 export const AuthProvider = ({children}) => {
-    const [user, setUser] = useState(null)
-    const [email, setEmail] = useState(null);
+    const [error, setError] = useState("");
+
+    const [user, setUser] = useState(() => {
+        // Pobieranie użytkownika z sessionStorage podczas inicjalizacji
+        const savedUser = sessionStorage.getItem("user");
+        return savedUser ? JSON.parse(savedUser) : null;
+    });
+
+    useEffect(() => {
+    }, [user]);
 
     const login = (userData) => {
-        setUser(userData)
-        // setEmail(userData.email);
-    }
-    const logout = () =>{
-        setUser(null)
-    }
+        setUser(userData);
+        sessionStorage.setItem("user", JSON.stringify(userData));
+    };
 
-    const register = async (login, email, password) => {
+    const logout = () => {
+        setUser(null);
+        sessionStorage.removeItem("user");
+    };
+
+    const register = async (name, email, password) => {
         try {
             const response = await fetch("http://localhost:8080/account/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ login, email, password }),
+                body: JSON.stringify({ name, email, password }),
             });
 
             if (!response.ok) {
-                throw new Error("Registration failed");
+                const errorData = await response.json();
+                setError(errorData.message);
+                return;
             }
 
             const userData = await response.json();
@@ -36,7 +49,9 @@ export const AuthProvider = ({children}) => {
             });
 
             if (!mailResponse.ok) {
-                throw new Error("Failed to send verification email");
+                const errorData = await response.json();
+                setError(errorData.message);
+                return;
             }
 
             return userData;
@@ -46,13 +61,57 @@ export const AuthProvider = ({children}) => {
         }
     };
 
-    const updateLogin = (newLogin) => {
-        setUser(prevUser => ({ ...prevUser, login: newLogin }));
-        localStorage.setItem("user", JSON.stringify({ ...user, login: newLogin }));
+    const updateLogin = async (newLogin) => {
+        if (!user) return Promise.reject(new Error("User not logged in"));
+
+        try {
+            const response = await fetch("http://localhost:8080/account/newUsername", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    oldUsername: user.name,
+                    newUsername: newLogin
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                setError(errorData.message);
+                return;
+            }
+
+            const updatedUser = await response.json();
+
+            // Aktualizacja stanu i sessionStorage
+            setUser(updatedUser);
+            sessionStorage.setItem("user", JSON.stringify(updatedUser));
+
+            return updatedUser;
+        } catch (error) {
+            console.error("Error updating username:", error);
+            return Promise.reject(error);
+        }
+    };
+
+    const changePassword = async (oldPassword, newPassword) => {
+        if (!user) return Promise.reject(new Error("User not logged in"));
+
+        try {
+            const response = await axios.post("http://localhost:8080/account/newPassword", {
+                username: user.email,
+                oldPassword,
+                newPassword
+            });
+
+            return response.data; // Zwraca dane użytkownika po zmianie
+        } catch (error) {
+            console.error("Error changing password:", error.response?.data || error.message);
+            return Promise.reject(error.response?.data || "Failed to change password");
+        }
     };
 
     return (
-        <AuthContext.Provider value={{ user, email, login, logout, register ,updateLogin }}>
+        <AuthContext.Provider value={{ user, login, logout, register ,updateLogin, changePassword }}>
             {children}
         </AuthContext.Provider>
     )
