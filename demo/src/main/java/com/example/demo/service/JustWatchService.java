@@ -56,4 +56,10 @@ public class JustWatchService {
         return "https://via.placeholder.com/300x450?text=No+Image";
     }
 
+    public String searchMovieDetails(Integer movieId){
+        String url = apiUrl+movieId+"?api_key="+apiKey+"&append_to_response=watch/providers";
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(url, String.class);
+    }
+
 }

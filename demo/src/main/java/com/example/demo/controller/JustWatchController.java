@@ -44,4 +44,8 @@ public class JustWatchController {
     return justWatchService.searchFilmPoster(id);
     }
 
+    @GetMapping("/searchMovieDetails/{movieID}")
+    public String searchMovieDetails(@PathVariable Integer movieID) {
+        return justWatchService.searchMovieDetails(movieID);
+    }
 }
