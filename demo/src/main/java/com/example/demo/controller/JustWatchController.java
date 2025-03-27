@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/justwatch")
@@ -44,8 +46,13 @@ public class JustWatchController {
     return justWatchService.searchFilmPoster(id);
     }
 
-    @GetMapping("/searchMovieDetails/{movieID}")
-    public String searchMovieDetails(@PathVariable Integer movieID) {
-        return justWatchService.searchMovieDetails(movieID);
+    @GetMapping("/searchFilmDetails/{movieID}")
+    public String searchFilmDetails(@PathVariable Integer movieID) {
+        return justWatchService.searchFilmDetails(movieID);
+    }
+
+    @GetMapping("/getFilmProviders/{movieID}")
+    public Map<String, Object> getFilmProviders(@PathVariable Integer movieID) {
+        return justWatchService.searchFilmProviders(movieID);
     }
 }

@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Map;
+
 @Service
 public class JustWatchService {
     private final String apiUrl="https://api.themoviedb.org/3/movie/";
@@ -56,10 +58,16 @@ public class JustWatchService {
         return "https://via.placeholder.com/300x450?text=No+Image";
     }
 
-    public String searchMovieDetails(Integer movieId){
+    public String searchFilmDetails(Integer movieId){
         String url = apiUrl+movieId+"?api_key="+apiKey+"&append_to_response=watch/providers";
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, String.class);
+    }
+
+    public Map<String, Object> searchFilmProviders(Integer movieId){
+        String url = apiUrl+movieId+"/watch/providers?api_key="+apiKey;
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(url, Map.class);
     }
 
 }
