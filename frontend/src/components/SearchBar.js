@@ -7,16 +7,29 @@ import {searchPopularMovies} from "../utils/searchQuery";
 const SearchBar = ({ onSearch }) => {
     const [movieOptions, setMovieOptions] = React.useState([]);
 
+    // const fetchPopularMovies = async () => {
+    //     const data = await searchPopularMovies();
+    //     if (data.results) {
+    //         setMovieOptions(data.results.map(movie => ({
+    //             title: movie.title,
+    //             year: movie.release_date ? movie.release_date.split('-')[0] : 'Unknown',
+    //         })));
+    //     } else {
+    //         setMovieOptions([]);
+    //     }
+    // };
     const fetchPopularMovies = async () => {
         const data = await searchPopularMovies();
-        if (data.results) {
-            setMovieOptions(data.results.map(movie => ({
-                title: movie.title,
-                year: movie.release_date ? movie.release_date.split('-')[0] : 'Unknown',
-            })));
-        } else {
+
+        if (!data || !data.results) {
             setMovieOptions([]);
+            return;
         }
+
+        setMovieOptions(data.results.map(movie => ({
+            title: movie.title,
+            year: movie.release_date ? movie.release_date.split('-')[0] : 'Unknown',
+        })));
     };
 
     React.useEffect(() => {
