@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.MovieItem;
+import com.example.demo.DTO.MovieItem;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

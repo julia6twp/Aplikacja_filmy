@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.model.MailRequest;
-import com.example.demo.model.MailStructure;
+import com.example.demo.DTO.MailRequest;
+import com.example.demo.DTO.MailStructure;
 import com.example.demo.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
