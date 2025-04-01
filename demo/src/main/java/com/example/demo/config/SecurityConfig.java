@@ -15,9 +15,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable()) // 🚨 Wyłączenie CSRF (do testów w Postmanie)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/account/**","/justwatch/**", "/api/hello","/mail/**").permitAll() // tymczasowo
+                        .requestMatchers(
+                                "/account/**", "/justwatch/**", "/api/hello", "/mail/**",
+                                "/api/users/delete", "/delete" // 🔹 Dodano DELETE
+                        ).permitAll()
                         .anyRequest().authenticated()
                 );
 
