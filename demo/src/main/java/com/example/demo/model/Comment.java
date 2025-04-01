@@ -33,6 +33,6 @@ public class Comment {
         this.filmID = filmID;
         this.text = text;
         this.userName = userName;
-        this.date = date;
+        this.date = LocalDateTime.now();
     }
 }
