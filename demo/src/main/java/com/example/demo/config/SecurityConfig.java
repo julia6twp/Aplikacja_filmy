@@ -19,7 +19,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/account/**", "/justwatch/**", "/api/hello", "/mail/**",
-                                "/api/users/delete", "/delete", "/api/comment/**" // 🔹 Dodano DELETE
+                                "/api/users/delete/**", "/delete", "/api/comment/**" // 🔹 Dodano DELETE
                         ).permitAll()
                         .anyRequest().authenticated()
                 );
