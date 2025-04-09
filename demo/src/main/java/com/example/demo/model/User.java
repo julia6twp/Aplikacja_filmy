@@ -5,7 +5,10 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
-
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Document(collection = "users")
@@ -38,7 +41,13 @@ public class User {
     @Getter
     private LocalDateTime codeExpiration;
 
-    public User() {}
+    @Getter
+    @Setter
+    private Set<Integer> favoriteMovies = new HashSet<>();
+
+    public User() {
+        this.favoriteMovies = new HashSet<>();
+    }
 
     public User(String name, String email, String password, String verificationCode, boolean verified, LocalDateTime codeExpiration ) {
         this.name = name;
@@ -47,6 +56,7 @@ public class User {
         this.verificationCode = verificationCode;
         this.verified = verified;
         this.codeExpiration = codeExpiration;
+        this.favoriteMovies = new HashSet<>();
     }
 
 }

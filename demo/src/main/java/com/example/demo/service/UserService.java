@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import com.example.demo.exceptions.FavoriteFilmNotFoundException;
+import com.example.demo.exceptions.FilmIsAlreadyInFavoritesException;
 import com.example.demo.exceptions.IncorrectPasswordException;
 import com.example.demo.exceptions.UserNotFoundException;
 import com.example.demo.model.User;
@@ -9,8 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -55,4 +56,49 @@ public class UserService {
             throw new UserNotFoundException("Użytkownika nie znaleziono");
         }
     }
+
+    public ResponseEntity<String> addFavorite(String emailorUsername, int filmID) {
+        Optional<User> userOptional = userRepository.findByEmailOrName(emailorUsername, emailorUsername);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            Set<Integer> set = new HashSet<>(user.getFavoriteMovies());
+            if (set.contains(filmID)) {
+            throw new FilmIsAlreadyInFavoritesException("Film jest już w ulubionych");
+            }
+            else{
+                set.add(filmID);
+                user.setFavoriteMovies(set);
+                userRepository.save(user);
+                return ResponseEntity.ok("Film został dodany do ulubionych");
+            }
+
+        }
+        else
+        {
+            throw new UserNotFoundException("Użytkownika nie znaleziono");
+        }
+    }
+
+    public ResponseEntity<String> deleteFavorite(String emailorUsername, int filmID) {
+        Optional<User> userOptional = userRepository.findByEmailOrName(emailorUsername, emailorUsername);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            Set<Integer> set = new HashSet<>(user.getFavoriteMovies());
+            if (set.contains(filmID)) {
+                set.remove(filmID);
+                user.setFavoriteMovies(set);
+                userRepository.save(user);
+                return ResponseEntity.ok("Film został usunięty z ulubionych");
+            }
+            else {
+                throw new FavoriteFilmNotFoundException("Nie znaleziono filmu w ulubionych");
+            }
+        }
+        else
+        {
+            throw new UserNotFoundException("Użytkownika nie znaleziono");
+        }
+    }
+
 }

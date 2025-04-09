@@ -30,4 +30,15 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable String emailorUsername, @PathVariable String password) {
         return userService.deleteUser(emailorUsername, password);
     }
+
+    @PostMapping("/favoritefilm/{emailorUsername}/{filmID}")
+    public ResponseEntity<String> addFavorite(@PathVariable String emailorUsername, @PathVariable int filmID) {
+        return userService.addFavorite(emailorUsername, filmID);
+    }
+
+    @DeleteMapping("/favoritefilm/delete/{emailorUsername}/{filmID}")
+    public ResponseEntity<String> deleteFavoriteFilm(@PathVariable String emailorUsername, @PathVariable int filmID) {
+        return userService.deleteFavorite(emailorUsername, filmID);
+    }
+
 }
