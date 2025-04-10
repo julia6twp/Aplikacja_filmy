@@ -57,5 +57,10 @@ public class CommentService {
         return commentRepository.findByFilmID(filmID);
     }
 
+    public List<Comment> getCommentsByUserName(String userName) {
+        return commentRepository.findByUserName(userName);
+
+    }
+
 
 }

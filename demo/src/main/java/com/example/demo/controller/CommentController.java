@@ -38,4 +38,9 @@ public class CommentController {
         return commentService.getCommentsByFilmID(filmID);
     }
 
+    @GetMapping("/getmy/{userName}")
+    public List<Comment> getMyComments(@PathVariable String userName) {
+        return commentService.getCommentsByUserName(userName);
+    }
+
 }
