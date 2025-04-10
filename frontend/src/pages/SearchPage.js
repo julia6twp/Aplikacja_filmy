@@ -29,7 +29,7 @@ const SearchPage = () => {
                     return {
                         id: movie.id,
                         title: movie.title,
-                        poster: posterUrl //|| "https://via.placeholder.com/300x450?text=No+Image"
+                        poster: posterUrl
                     };
                 })
             );
