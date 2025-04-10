@@ -14,7 +14,7 @@ import NewPasswordPage from "./pages/NewPasswordPage";
 
 function App() {
   return (
-      <AuthProvider>
+      <AuthProvider>  {/* udostępnia kontekst uwierzytelnienia (auth) wszystkim komponentom potomnym */}
           <div className="main">
               <Routes>
                   <Route path="/" element={<SearchPage />} />

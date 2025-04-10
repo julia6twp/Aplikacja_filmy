@@ -8,7 +8,7 @@ const PasswordResetPage = () => {
     const [errors, setErrors] = useState({});
     const [successMessage, setSuccessMessage] = useState("");
     const navigate = useNavigate();
-
+    // Funkcja walidująca formularz
     const validateForm = () => {
         let newErrors = {};
         if (!email.trim()) {
@@ -20,12 +20,13 @@ const PasswordResetPage = () => {
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-
+// Funkcja obsługująca wysłanie formularza
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Zatrzymanie przeładowania strony
 
         if (validateForm()) {
             try {
+                // Wysyłanie żądania do API o resetowanie hasła
                 const response = await fetch(`http://localhost:8080/mail/send/${email}`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },

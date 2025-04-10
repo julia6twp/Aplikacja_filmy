@@ -7,8 +7,9 @@ import YourMovies from "../components/YourMovies";
 import YourOpinions from "../components/YourOpinions";
 
 const AccountPage = () => {
+    // Stan przechowujący aktywną zakładkę
     const [activeTab, setActiveTab] = useState(0);
-
+    // Funkcja zmieniająca aktywną zakładkę
     const handleTabChange = (event, newValue) => {
         setActiveTab(newValue);
     };

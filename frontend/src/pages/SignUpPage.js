@@ -15,8 +15,8 @@ const SignUpPage = () => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
     const [serverError, setServerError] = useState("");
-    const { register } = useAuth();
-
+    const { register } = useAuth();// funkcja do rejestracji użytkownika z kontekstu autoryzacji
+    // Walidacja pól formularza
     const validateForm = () => {
         let newErrors = {};
 
@@ -45,13 +45,13 @@ const SignUpPage = () => {
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-
+    // Obsługa kliknięcia przycisku rejestracji
     const handleSubmit = async (e) => {
         e.preventDefault();
         setServerError("");
 
         if (validateForm()) {
-            const result = await register(name, email, password);
+            const result = await register(name, email, password); // rejestracja użytkownika
             if (result) {
                 navigate("/verify", { state: { email } });
             } else {

@@ -13,12 +13,13 @@ const LoginInPage = () => {
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({ user: "", password: "" });
     const [loginError, setLoginError] = useState("");
-
+    // Użycie hooka auth dla logowania użytkownika
     const auth = useAuth();
     const navigate = useNavigate()
-
+    // Funkcja obsługująca logowanie użytkownika
     const handleLogin = async () => {
         try {
+            // Wysyłanie zapytania POST do serwera
             const response = await axios.post("http://localhost:8080/account/login", {
                 login: user,
                 password: password
@@ -41,7 +42,7 @@ const LoginInPage = () => {
             setLoginError("Incorrect data details");
         }
     };
-
+    // Funkcja walidacji formularza
     const validateForm = () => {
         let newErrors = { user: "", password: "" };
         let isValid = true;
@@ -59,11 +60,11 @@ const LoginInPage = () => {
         setErrors(newErrors);
         return isValid;
     };
-
+    // Funkcja obsługująca wysyłanie formularza
     const handleSubmit = (e) => {
         e.preventDefault();  // Zatrzymanie przeładowania strony
         if (validateForm()) {
-            handleLogin();
+            handleLogin();// Jeśli formularz poprawny, logujemy użytkownika
         } else {
             console.log("Form validation failed");
         }
@@ -72,7 +73,6 @@ const LoginInPage = () => {
     return (
         <>
             <Navbar/>
-
             <div className="box-container1">
                 <div className="box">
                     <div>

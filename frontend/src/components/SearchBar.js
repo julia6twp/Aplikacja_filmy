@@ -18,6 +18,8 @@ const SearchBar = ({ onSearch }) => {
     //         setMovieOptions([]);
     //     }
     // };
+
+    // Funkcja pobierająca popularne filmy i przekształcająca je do formatu Autocomplete jako opcja wyboru
     const fetchPopularMovies = async () => {
         const data = await searchPopularMovies();
 
@@ -32,10 +34,11 @@ const SearchBar = ({ onSearch }) => {
         })));
     };
 
+    // Wywołanie pobierania filmów po załadowaniu komponentu
     React.useEffect(() => {
         fetchPopularMovies();
     }, []);
-
+    // Obsługa wpisywania tekstu – uruchamia wyszukiwanie po przekroczeniu 2 znaków
     const handleInputChange = (event, value) => {
          const query = event.target.value || '';
         if (value === "") {
@@ -52,7 +55,7 @@ const SearchBar = ({ onSearch }) => {
             onSearch(event.target.value);
         }
     };
-
+    // Obsługa kliknięcia w opcję z listy – wykonuje wyszukiwanie
     const handleOptionSelect = (event, value) => {
         if (value) {
             onSearch(value);

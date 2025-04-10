@@ -11,6 +11,7 @@ const SearchPage = () => {
     const [title, setTitle] = useState("Top Ranked Movies");
     const navigate = useNavigate();
 
+    // Funkcja pobierająca filmy w zależności od wyszukiwanego hasła
     const fetchMovies = async (searchTerm = "") => {
         let data;
         if (searchTerm === "") {
@@ -37,11 +38,11 @@ const SearchPage = () => {
             setMovies([]);
         }
     };
-
+    // useEffect wywołuje pobieranie filmów po załadowaniu komponentu
     useEffect(() => {
         fetchMovies();
     }, []);
-
+    // Obsługa wyszukiwania – przekazana do komponentu SearchBar
     const handleSearch = (searchTerm) => {
         fetchMovies(searchTerm);
     };

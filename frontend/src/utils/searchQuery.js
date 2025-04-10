@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 const BACKEND_URL = "http://localhost:8080/justwatch";
-
+// Funkcja do wyszukiwania filmów na podstawie podanego terminu
 export const searchMoviesBySearchTerm = async (searchTerm) => {
     try {
         const response = await axios.get(`${BACKEND_URL}/searchTerm/${searchTerm}`);
@@ -13,7 +13,7 @@ export const searchMoviesBySearchTerm = async (searchTerm) => {
     }
 };
 
-
+// Funkcja do wyszukiwania najwyżej ocenianych filmów
 export const searchTopRankedMovies = async () => {
     try {
         const response = await axios.get(`${BACKEND_URL}/searchTopRanked`);
@@ -23,6 +23,7 @@ export const searchTopRankedMovies = async () => {
         return null;
     }
 };
+// Funkcja do wyszukiwania popularnych filmów
 export const searchPopularMovies = async () => {
     try {
         const response = await axios.get(`${BACKEND_URL}/searchPopularFilms`);
@@ -32,7 +33,7 @@ export const searchPopularMovies = async () => {
         return null;
     }
 };
-
+// Funkcja do pobierania szczegółowych informacji o filmie z TMDB
 export const fetchMovieDetails = async (movieId) => {
     try {
         const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=watch/providers`);
@@ -42,7 +43,7 @@ export const fetchMovieDetails = async (movieId) => {
         return null;
     }
 };
-
+// Funkcja do pobierania plakatu filmu z lokalnego backendu
 export const fetchMoviePoster = async (movieId) => {
     try {
         const response = await axios.get(`${BACKEND_URL}/${movieId}/poster`);

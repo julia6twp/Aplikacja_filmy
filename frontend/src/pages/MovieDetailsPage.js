@@ -8,7 +8,7 @@ import FavoriteMovieButton from "../components/FavoriteMovieButton";
 import OpinionList from "../components/OpinionsList";
 
 const MovieDetailsPage = () => {
-    const { id } = useParams();
+    const { id } = useParams(); // pobranie ID filmu z URL
     const [movie, setMovie] = useState(null);
     const [isFavorite, setIsFavorite] = useState(false);
     const [poster, setPoster] = useState(null);
@@ -18,13 +18,13 @@ const MovieDetailsPage = () => {
     const [opinions, setOpinions] = useState([
         // { id: 1, text: "Świetny film! Polecam każdemu.", date: "2025-03-25", isEditing: false, originalText: "" },
     ]);
-
+    // Sprawdzenie, czy dany film jest już zapisany jako ulubiony
     useEffect(() => {
         if (savedMovies.some((savedMovie) => savedMovie.id === id)) {
             setIsFavorite(true);
         }
     }, [id, savedMovies]);
-
+    // Pobranie szczegółów filmu i plakatu po załadowaniu komponentu
     useEffect(() => {
         const getMovieDetails = async () => {
             const data = await fetchMovieDetails(id);

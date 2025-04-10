@@ -7,14 +7,14 @@ const ChangeLoginForm = ({ onCancel }) => {
     const [newLogin, setNewLogin] = useState("");
     const [error, setError] = useState("");
     const auth = useAuth();
-
+    // Funkcja obsługująca wysyłanie formularza
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!newLogin.trim()) {
             setError("Login cannot be empty");
             return;
         }
-
+        // Aktualizacja loginu użytkownika
         auth.updateLogin(newLogin)
             .then(() => {
                 alert("Login changed successfully!");

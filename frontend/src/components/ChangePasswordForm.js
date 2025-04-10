@@ -9,7 +9,7 @@ const ChangePasswordForm = ({ onCancel }) => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const auth = useAuth();
-
+    // Funkcja obsługująca wysyłanie formularza
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -22,7 +22,7 @@ const ChangePasswordForm = ({ onCancel }) => {
             setError("Passwords do not match.");
             return;
         }
-
+        // Wywołanie funkcji zmiany hasła z auth
         auth.changePassword(oldPassword, newPassword)
             .then(() => {
                 alert("Password changed successfully!");

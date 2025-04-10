@@ -27,6 +27,7 @@ const NewPasswordPage = () => {
         }
 
         try {
+            // Wysłanie żądania resetowania hasła
             const response = await axios.post("http://localhost:8080/account/resetPassword", {
                 mail: email,
                 newPassword: newPassword,
