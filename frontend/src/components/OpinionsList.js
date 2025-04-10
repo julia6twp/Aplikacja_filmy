@@ -7,7 +7,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import {useAuth} from "../utils/auth";
 import {useNavigate} from "react-router-dom";
 
-const OpinionList = ({ opinions, setOpinions, allowEditing, allowAdding }) => {
+const OpinionList = ({ opinions, setOpinions, allowEditing, allowAdding, filmID }) => {
     const [newComment, setNewComment] = useState("");
     const [isAddingComment, setIsAddingComment] = useState(false);
     const auth = useAuth()
@@ -43,25 +43,37 @@ const OpinionList = ({ opinions, setOpinions, allowEditing, allowAdding }) => {
         ));
     };
 
-    const handleAddComment = () => {
+    const handleAddComment = async () => {
         if (!auth.user) {
             navigate("/login");
             return;
         }
         setIsAddingComment(true);
         if (newComment.trim()) {
-            const loggedInUser = auth.user ? auth.user.name : "Unknown User";
+            const loggedInUser = auth.user?.name
             const newOpinion = {
-                id: new Date().toISOString(),
+                filmID: filmID,
                 text: newComment,
-                date: new Date().toISOString().split('T')[0],
-                isEditing: false,
-                originalText: newComment,
-                username: loggedInUser,
+                userName: loggedInUser,
+                date: new Date().toISOString()
             };
-            setOpinions([newOpinion, ...opinions]);
-            setNewComment("");
-            setIsAddingComment(false);
+
+            try {
+                const response = await fetch("http://localhost:8080/api/comment/create", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(newOpinion)
+                });
+
+                const savedComment = await response.json();
+                setOpinions([savedComment, ...opinions]);
+                setNewComment("");
+                setIsAddingComment(false);
+            } catch (error) {
+                console.error("Błąd przy dodawaniu komentarza:", error);
+            }
         }
     };
 
@@ -107,7 +119,6 @@ const OpinionList = ({ opinions, setOpinions, allowEditing, allowAdding }) => {
                         <Button
                             variant="contained"
                             color="primary"
-                            // onClick={() => setIsAddingComment(true)}
                             onClick={handleAddComment}
                             sx={{ backgroundColor: "lightblue", color: "black", marginBottom: "15px" }}
                         >
@@ -133,7 +144,7 @@ const OpinionList = ({ opinions, setOpinions, allowEditing, allowAdding }) => {
                         minWidth: "500px",
                     }}>
                         <Typography variant="body2" sx={{ color: "lightblue", marginBottom: "5px" }}>
-                            {new Date(opinion.date).toLocaleDateString("pl-PL")} - {opinion.username}
+                            {new Date(opinion.date).toLocaleDateString("pl-PL")} - {opinion.userName}
                         </Typography>
 
                         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
