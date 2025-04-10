@@ -13,8 +13,20 @@ const OpinionList = ({ opinions, setOpinions, allowEditing, allowAdding, filmID 
     const auth = useAuth()
     const navigate = useNavigate();
 
-    const handleDelete = (id) => {
-        setOpinions(opinions.filter((opinion) => opinion.id !== id));
+    const handleDelete = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/comment/delete/${id}`, {
+                method: "DELETE"
+            });
+
+            if (response.ok) {
+                setOpinions(opinions.filter((opinion) => opinion.id !== id));
+            } else {
+                console.error("Nie udało się usunąć komentarza");
+            }
+        } catch (error) {
+            console.error("Błąd przy usuwaniu komentarza:", error);
+        }
     };
 
     const toggleEdit = (id) => {
@@ -29,12 +41,30 @@ const OpinionList = ({ opinions, setOpinions, allowEditing, allowAdding, filmID 
         ));
     };
 
-    const handleSave = (id) => {
-        const formattedDate = new Date().toISOString().split('T')[0];
+    const handleSave = async (id) => {
+        const opinionToUpdate = opinions.find(op => op.id === id);
+        // const formattedDate = new Date().toISOString().split('T')[0];
 
-        setOpinions(opinions.map((opinion) =>
-            opinion.id === id ? { ...opinion, isEditing: false, date: formattedDate } : opinion
-        ));
+        try {
+            const response = await fetch("http://localhost:8080/api/comment/change", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    commentID: id,
+                    newText: opinionToUpdate.text
+                })
+            });
+
+            const updatedComment = await response.json();
+
+            setOpinions(opinions.map((opinion) =>
+                opinion.id === id ? { ...updatedComment, isEditing: false } : opinion
+            ));
+        } catch (error) {
+            console.error("Błąd przy edytowaniu komentarza:", error);
+        }
     };
 
     const handleCancel = (id) => {
