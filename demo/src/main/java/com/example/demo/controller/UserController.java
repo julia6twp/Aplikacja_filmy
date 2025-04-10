@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -39,6 +40,11 @@ public class UserController {
     @DeleteMapping("/favoritefilm/delete/{emailorUsername}/{filmID}")
     public ResponseEntity<String> deleteFavoriteFilm(@PathVariable String emailorUsername, @PathVariable int filmID) {
         return userService.deleteFavorite(emailorUsername, filmID);
+    }
+
+    @GetMapping("/favoritefilm/{emailorUsername}")
+    public Set<Integer> getFavoriteMovies(@PathVariable String emailorUsername) {
+        return userService.getFavoriteMovies(emailorUsername);
     }
 
 }

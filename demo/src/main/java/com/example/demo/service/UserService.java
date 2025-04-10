@@ -101,4 +101,15 @@ public class UserService {
         }
     }
 
+    public Set<Integer> getFavoriteMovies(String emailorUsername) {
+        Optional<User> userOptional = userRepository.findByEmailOrName(emailorUsername, emailorUsername);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return user.getFavoriteMovies();
+        }
+        else{
+                throw new UserNotFoundException("Użytkownika nie znaleziono");
+        }
+    }
+
 }

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/comment")
@@ -29,6 +31,11 @@ public class CommentController {
     @PostMapping("/change")
     public Comment changeComment(@RequestBody ChangeCommentDTO newComment) {
         return commentService.changeComment(newComment.getCommentID(), newComment.getNewText());
+    }
+
+    @GetMapping("/get/{filmID}")
+    public List<Comment> getComments(@PathVariable int filmID) {
+        return commentService.getCommentsByFilmID(filmID);
     }
 
 }
