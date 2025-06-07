@@ -1,13 +1,39 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { Typography } from "@mui/material";
 import OpinionList from "../components/OpinionsList";
+import {useAuth} from "../utils/auth";
 
 const YourOpinions = () => {
-    const [opinions, setOpinions] = useState([
-        { id: 1, text: "Świetny film! Polecam każdemu.", date: "2025-03-25", isEditing: false, originalText: "", username: "ktos" },
-        { id: 2, text: "Nie do końca mój klimat, ale da się obejrzeć.", date: "2025-03-24", isEditing: false, originalText: "", username: "loik" },
-        { id: 3, text: "Super efekty specjalne, fabuła też niezła!", date: "2025-03-23", isEditing: false, originalText: "", username:"babrb" }
-     ]);
+    const [opinions, setOpinions] = useState([]);
+    const auth = useAuth();
+
+    useEffect(() => {
+        const fetchOpinions = async () => {
+            if (auth.user?.name) {
+                try {
+                    const response = await fetch(`http://localhost:8080/api/comment/getmy/${auth.user?.name}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        const formattedOpinions = data.map(opinion => ({
+                            id: opinion.id,
+                            text: opinion.text,
+                            date: opinion.date,
+                            userName: opinion.userName,
+                            isEditing: false,
+                            originalText: ""
+                        }));
+                        setOpinions(formattedOpinions);
+                    } else {
+                        console.error("Failed to fetch opinions:", response.status);
+                    }
+                } catch (error) {
+                    console.error("Error fetching opinions:", error);
+                }
+            }
+        };
+
+        fetchOpinions();
+    }, [auth.user]);
 
     return (
         <>
