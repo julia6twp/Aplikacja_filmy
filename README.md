@@ -2,7 +2,7 @@
 
 Przed uruchomieniem trzeba dodać dodatkowy plik (dokładne objaśnienie Trello)
 
-# baza danych - MongoDB
+# baza danych - MongoDB/ cache - Redis
 https://www.mongodb.com/try/download/community
 
 # Tablica Trello
