@@ -25,7 +25,7 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-
+//dodawanie komentarza
     public ResponseEntity<String> deleteComment(String commentID) {
         Optional<Comment> commentOptional = commentRepository.findById(commentID);
 
@@ -40,6 +40,7 @@ public class CommentService {
 
     }
 
+    //zmiana komentarza
     public Comment changeComment(String commentID, String newText) {
         Optional<Comment> commentOptional = commentRepository.findById(commentID);
 
@@ -53,10 +54,12 @@ public class CommentService {
         }
     }
 
+    //pobieranie komentarzy do filmu
     public List<Comment> getCommentsByFilmID(int filmID) {
         return commentRepository.findByFilmID(filmID);
     }
 
+    //pobieranie komentarzy po nazwie użytkownika
     public List<Comment> getCommentsByUserName(String userName) {
         return commentRepository.findByUserName(userName);
 

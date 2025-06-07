@@ -32,6 +32,7 @@ public class MailService {
         this.userRepository = userRepository;
     }
 
+    //wysyłanie maila z kodem weryfikacyjnym
     public void sendMail(String to, MailStructure mailStructure) {
         User user = userRepository.findByEmail(to);
         if (user == null) {throw new UserNotFoundException("Nie znaleziono użytkownika!");}
@@ -48,6 +49,7 @@ public class MailService {
         mailSender.send(message);
     }
 
+    // weryfikacja konta użytkownika
     public ResponseEntity<String> verifyCode(String to, String code) {
         User user = userRepository.findByEmail(to);
         if (user == null) {throw new UserNotFoundException("Nie znaleziono użytkownika!");}
@@ -70,6 +72,7 @@ public class MailService {
 
     }
 
+    //weryfikacja maila przy resecie hasła
     public ResponseEntity<String> verifyCodeForChangePassword(String to, String code) {
         User user = userRepository.findByEmail(to);
         

@@ -22,14 +22,14 @@ public class JustWatchService {
         return restTemplate.getForObject(url, String.class);
     }
 
-
+// zapytanie do TMDB - wyszukiwanie filmu po haśle
     public String searchFilmBySearchTerm(String searchTerm) {
         String url="https://api.themoviedb.org/3/search/movie?query="+searchTerm+"&api_key="+apiKey;
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, String.class);
     }
 
-
+// zapytanie do TMBD - pobieranie listy najlepiej ocenianch filmów
     public String searchTopRankedFilms(){
         String url="https://api.themoviedb.org/3/movie/top_rated?api_key="+apiKey+"&language=en-US&page=1";
         RestTemplate restTemplate = new RestTemplate();
@@ -44,7 +44,7 @@ public class JustWatchService {
     }
 
 
-
+// zapytanie do TMDB - pobieranie okładki filmu, gdy istnieje
     public String searchFilmPoster(Integer movieId){
         String url = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + apiKey;
         RestTemplate restTemplate = new RestTemplate();
@@ -58,12 +58,13 @@ public class JustWatchService {
         return "https://via.placeholder.com/300x450?text=No+Image";
     }
 
+    //zapytanie do TMDB - pobranie szczegółów filmu
     public String searchFilmDetails(Integer movieId){
         String url = apiUrl+movieId+"?api_key="+apiKey+"&append_to_response=watch/providers";
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, String.class);
     }
-
+    //zapytanie do TMDB - pobranie informacji o platformach streaminowych
     public Map<String, Object> searchFilmProviders(Integer movieId){
         String url = apiUrl+movieId+"/watch/providers?api_key="+apiKey;
         RestTemplate restTemplate = new RestTemplate();

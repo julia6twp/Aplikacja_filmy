@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 import java.util.Optional;
 
+//interfejs repozytorium komentarzy
 public interface CommentRepository extends MongoRepository<Comment, String> {
     List<Comment> findByUserName(String  user);
     List<Comment> findByFilmID(int filmID);
