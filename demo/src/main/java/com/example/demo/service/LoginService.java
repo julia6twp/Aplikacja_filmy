@@ -69,24 +69,31 @@ public class LoginService {
 
     //zmiana hasła
     public User changePassword(String username, String oldPassword, String newPassword) {
-        Optional<User> userCheck= userRepository.findByEmailOrName(username, username);
-        if(userCheck.isEmpty()) {throw new UserNotFoundException("Nie znaleziono użytkownika");}
+        Optional<User> userCheck = userRepository.findByEmailOrName(username, username);
+        if (userCheck.isEmpty()) {
+            throw new UserNotFoundException("Nie znaleziono użytkownika");
+        }
         User user = userCheck.get();
 
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
             throw new IncorrectPasswordException("Błędne hasło");
         }
 
-        if(newPassword.length() < 6) {throw new TooShortPasswordException("Podane hasło jest za krótkie");}
+        if (newPassword.length() < 6) {
+            throw new TooShortPasswordException("Podane hasło jest za krótkie");
+        }
 
-        if(newPassword.equals(oldPassword)) {
+        if (newPassword.equals(oldPassword)) {
             throw new InvalidNewPasswordException("Podane nowe hasło jest takie samo jak poprzednie");
         }
-        else {
-            user.setPassword(passwordEncoder.encode(newPassword));
-            return userRepository.save(user);
-        }
 
+        user.setPassword(passwordEncoder.encode(newPassword));
+        User updatedUser = userRepository.save(user);
+
+        String cacheKey = "user:" + username;
+        redisTemplate.delete(cacheKey);
+
+        return updatedUser;
     }
 
     //zmiana nicku
@@ -99,22 +106,36 @@ public class LoginService {
         if(loginExp != null) {throw new UnavailableNameException("Wybrana nazwa jest zajęta"); }
 
         user.setName(newUsername);
-        return userRepository.save(user);
+        User updatedUser = userRepository.save(user);
+
+        String cacheKey = "user:" + oldUsername;
+        redisTemplate.delete(cacheKey);
+
+        return updatedUser;
     }
 
     //reset hasła
     public User resetPassword(String mail, String newPassword) {
-        User user= userRepository.findByEmail(mail);
+        User user = userRepository.findByEmail(mail);
+        if (user == null) {
+            throw new UserNotFoundException("Nie znaleziono użytkownika");
+        }
 
-        if(passwordEncoder.matches(newPassword, user.getPassword())) {
-            System.out.println("Reset password");
+        if (passwordEncoder.matches(newPassword, user.getPassword())) {
             throw new InvalidNewPasswordException("Podane nowe hasło jest takie samo jak poprzednie");
         }
 
-        if(newPassword.length() < 6) {throw new TooShortPasswordException("Podane hasło jest za krótkie");}
+        if (newPassword.length() < 6) {
+            throw new TooShortPasswordException("Podane hasło jest za krótkie");
+        }
 
         user.setPassword(passwordEncoder.encode(newPassword));
-        return userRepository.save(user);
+        User updatedUser = userRepository.save(user);
+
+        String cacheKey = "user:" + user.getName();
+        redisTemplate.delete(cacheKey);
+
+        return updatedUser;
 
     }
 
